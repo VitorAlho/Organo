@@ -1,6 +1,8 @@
 .worker {
+    position:relative;
     width: 280px;
     margin-bottom: 20px;
+    
 }
 
 .worker .header {
@@ -18,8 +20,11 @@
     background: #FFFFFF;
     box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.08);
     border-radius: 0px 0px 10px 10px;
-    padding-top: 90px;
-    padding-bottom: 40px;
+    padding-top: 40px;
+    padding-bottom: 10px;
+    display:flex;
+    flex-direction: column;
+    flex:100%;    
 }
 
 .worker .footer h4 {
@@ -34,5 +39,19 @@
     font-size: 18px;
     line-height: 22px;
     color: #212121;
-    padding: 0 16px;
+    
+}
+
+.favorite{
+    margin-top:20px;   
+     font-size: 18px;
+    line-height: 22px;
+    color: #212121;
+    
+}
+
+.delete {
+    position: absolute;
+    right: -10px;
+    top: -10px;
 }

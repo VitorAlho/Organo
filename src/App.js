@@ -3,46 +3,47 @@ import {Banner} from './components/Banner';
 import { Form } from './components/Form';
 import { Team } from './components/Team';
 import { Footer } from './components/Footer';
+import { v4 as uuidv4 } from 'uuid';
 
 function App() {
 
-  const teams = [
+  const [teams,setTeams] = useState([
     {
+      id: uuidv4(),
       name: 'Programming',
-      primaryColor: '#57C278',
-      secondaryColor: '#D9F7E9'
+      color: '#D9F7E9'
     },
     {
+      id: uuidv4(),
       name: 'Front-End',
-      primaryColor: '#82CFFA',
-      secondaryColor: '#E8F8FF'
+      color: '#E8F8FF'
     },
     {
+      id: uuidv4(),
       name: 'Data Science',
-      primaryColor: '#A6D157',
-      secondaryColor: '#F0F8E2'
+      color: '#F0F8E2'
     },
     {
+      id: uuidv4(),
       name: 'Devops',
-      primaryColor: '#E06869',
-      secondaryColor: '#FDE7E8'
+      color: '#FDE7E8'
     },
     {
+      id: uuidv4(),
       name: 'Ux e Design',
-      primaryColor: '#DB6EBF',
-      secondaryColor: '#FAE9F5'
+      color: '#FAE9F5'
     },
     {
+      id: uuidv4(),
       name: 'Mobile',
-      primaryColor: '#FFBA05',
-      secondaryColor: '#FFF5D9'
+      color: '#FFF5D9'
     },
     {
+      id: uuidv4(),
       name: 'Manage and Inovation',
-      primaryColor: '#FF8A29',
-      secondaryColor: '#FFEEDF'
+      color: '#FFEEDF'
     }
-  ]
+  ]);
 
   const [coworkers, setCoworkers] = useState([])
 
@@ -54,23 +55,58 @@ function App() {
     //console.log(coworkers)
   }
 
+  const toDeleteCoworker = (id) => {
+    //debugger
+    //console.log(coworkers)
+    setCoworkers(coworkers.filter(coworker=> coworker.id !== id ))
+    
+  }
+
+  function changeTeamColor(color,id) {
+    //debugger
+    setTeams(teams.map(team =>{
+      if(team.id === id){
+        team.color = color;
+      }
+      return team;
+    }));
+  }
+
+  function registerNewTeam(newTeam){
+    setTeams([...teams,{...newTeam,id:uuidv4()}])
+  }
+
+  function toFavorite(id){
+    setCoworkers(coworkers.map(coworker=>{
+      if(coworker.id === id) {coworker.favorite = !coworker.favorite;}
+      return coworker;
+    }))
+  }
+
   return (
     <div className="App">
       <Banner/>        
-      <Form teams={teams.map(team => team.name)} newRegisteredCoworker={coworker => toNewAddedCoworker(coworker)}/>
+      <Form 
+        teams={teams.map(team => team.name)} 
+        newRegisteredCoworker={coworker => toNewAddedCoworker(coworker)}
+        registerNewTeam ={registerNewTeam}
+      />
 
-      {teams.map(team =>{
+      {teams.map((team,index) =>{
 
         const teamMembers = coworkers.filter(coworker => coworker.team === team.name)
         //console.log("TeamMembers",teamMembers)
         if(teamMembers.length){
           return (
             <Team 
-              key={team.name} 
+              changeColor = {changeTeamColor}
+              key={index} 
+              id={team.id}
               name={team.name} 
-              primaryColor={team.primaryColor} 
-              secondaryColor={team.secondaryColor}
+              color={team.color} 
               coworkers={teamMembers}
+              toDelete={toDeleteCoworker}
+              toFavorite={toFavorite}
             />
           )
         }   
